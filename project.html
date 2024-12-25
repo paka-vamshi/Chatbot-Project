@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-header">
+            <h1 style="color: rgb(230, 161, 112);">ChatBot</h1>
+
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-container">
+            <input type="text" id="user-input" placeholder="please enter the query">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <script>
+        
+document.getElementById("send-button").addEventListener("click", handleUserInput);
+
+
+document.getElementById("user-input").addEventListener("keypress", function (e) {
+  if (e.key === "Enter") handleUserInput();
+});
+
+function handleUserInput() {
+  const userInput = document.getElementById("user-input").value.trim();
+
+  
+  if (!userInput) return;
+
+  
+  displayMessage(userInput, "user");
+
+  
+  generateBotResponse(userInput);
+
+  
+  document.getElementById("user-input").value = "";
+}
+
+function displayMessage(message, sender) {
+  const chatMessages = document.getElementById("chat-messages");
+  const messageDiv = document.createElement("div");
+  messageDiv.textContent = message;
+  messageDiv.className = sender === "user" ? "user-message" : "bot-message";
+  chatMessages.appendChild(messageDiv);
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function generateBotResponse(userInput) {
+  let response;
+
+  const responses = {
+  
+  "hello": "Hi there! How can I assist you?",
+  "hi": "Hello! What can I do for you?",
+  "how are you": "I'm just a bot, but I'm doing great! Thanks for asking.",
+  "goodbye": "Goodbye! Have a great day!",
+  "bye": "See you later! Take care!",
+
+  
+  "what is your name": "I'm ChatBot, your virtual assistant.",
+  "who created you": "I was created by a developer using HTML, CSS, and JavaScript.",
+  "what do you do": "I provide information and answer your queries.",
+
+  
+  "html": "HTML (HyperText Markup Language) is the standard language for creating web pages.",
+  " html tag": "HTML tags are the building blocks of a webpage, defining its structure and content.",
+  "div": "A `<div>` is a container element used to group content and apply styling.",
+  "what is an html attribute": "HTML attributes provide additional information about elements, like `id`, `class`, or `src`.",
+  "what is the purpose of the head tag": "The `<head>` tag contains meta-information about the webpage, like the title and linked stylesheets.",
+  "what is semantic html": "Semantic HTML refers to using elements that convey their meaning, like `<article>`, `<header>`, and `<footer>`.",
+  "how to create a hyperlink in html": "Use the `<a>` tag, like `<a href='url'>Link Text</a>`.",
+  "what is the difference between id and class": "An `id` is unique for an element, while a `class` can be shared across multiple elements.",
+  "what is a form in html": "A form collects user input, defined with `<form>`, `<input>`, `<textarea>`, and other elements.",
+
+  
+  "what is css": "CSS (Cascading Style Sheets) is used to style the appearance of HTML elements.",
+  "what is a css selector": "Selectors target HTML elements to apply styles, like `p`, `.class`, or `#id`.",
+  "what is the box model": "The box model describes an element's layout: content, padding, border, and margin.",
+  "what is the difference between inline and block elements": "Inline elements flow with text, while block elements start on a new line and take up full width.",
+  "how to center a div": "You can use `margin: auto;`, `flexbox`, or `grid` to center a div.",
+  "what is a pseudo-class": "A pseudo-class defines a special state of an element, like `:hover` or `:first-child`.",
+  "what is a media query": "A media query applies styles based on the device's screen size or resolution.",
+  "how to add a background image": "Use `background-image: url('path/to/image.jpg');` in CSS.",
+  "what is flexbox": "Flexbox is a CSS layout model for designing flexible and responsive layouts.",
+  "what is the difference between relative and absolute positioning": "`relative` positions an element relative to itself; `absolute` positions it relative to the nearest positioned ancestor.",
+
+  
+  "what is javascript": "JavaScript is a programming language for adding interactivity to web pages.",
+  "what are variables in javascript": "Variables store data values and can be declared using `var`, `let`, or `const`.",
+  "what is a function in javascript": "A function is a block of code designed to perform a specific task.",
+  "what is the difference between == and ===": "`==` compares values loosely, while `===` checks both value and type.",
+  "what is an array": "An array is a data structure that stores multiple values in a single variable.",
+  "what is an object in javascript": "An object is a collection of properties, defined as key-value pairs.",
+  "what is a promise": "A promise is an object representing the eventual completion or failure of an asynchronous operation.",
+  "what is an event listener": "An event listener waits for a specific event, like a click, to trigger a function.",
+  "what is dom manipulation": "DOM manipulation is modifying the HTML structure using JavaScript.",
+  "how to write an if statement": "Use `if(condition) { // code }` to execute code based on a condition.",
+  "what is a loop": "A loop repeats code until a condition is met, e.g., `for`, `while`, or `do...while` loops.",
+  "what is a callback function": "A callback is a function passed as an argument to another function and executed later.",
+
+  
+  "what is responsive design": "Responsive design ensures a website looks good on all devices.",
+  "what is a framework": "A framework is a pre-built set of tools and libraries to simplify development, like Bootstrap or React.",
+  "what is a library": "A library is a collection of pre-written code for common tasks, like jQuery or Lodash.",
+  "what is an api": "An API (Application Programming Interface) allows communication between software systems.",
+  "what is the difference between frontend and backend": "Frontend involves UI and user experience, while backend handles server-side logic and databases.",
+  "what is a database": "A database stores and organizes data for easy access and management.",
+  "what is sql": "SQL (Structured Query Language) is used to interact with relational databases.",
+  "what is version control": "Version control tracks changes in code, with Git being the most popular tool.",
+  "what is hosting": "Hosting provides online storage and resources to make a website accessible on the internet.",
+  "what is the difference between http and https": "HTTP is unencrypted, while HTTPS is secure and encrypted using SSL/TLS.",
+
+  "what is seo": "SEO (Search Engine Optimization) improves website visibility on search engines.",
+  "what is accessibility in web design": "Accessibility ensures websites can be used by people with disabilities.",
+  "what is caching": "Caching stores data temporarily to improve performance and reduce server load.",
+  "what is a progressive web app": "A PWA is a web app with enhanced features like offline access and push notifications.",
+  "what is a cms": "A CMS (Content Management System) allows non-developers to manage website content easily, e.g., WordPress.",
+  "what is a browser cookie": "Cookies are small data files stored on a user's device by a website.",
+  "what is a session": "A session tracks user interactions with a website during a single visit.",
+  "what is cross-browser compatibility": "Ensuring a website functions correctly on different browsers.",
+  "what is a content delivery network": "A CDN distributes content across multiple servers for faster delivery.",
+  "what is debugging": "Debugging is identifying and fixing errors in code.",
+  "what are web standards": "Web standards are guidelines for creating accessible, efficient, and compatible websites.",
+};
+
+
+  
+  response = responses[userInput.toLowerCase()] || "Sorry, I didn't understand that.";
+
+  
+  setTimeout(() => displayMessage(response, "bot"), 500);
+}
+
+    </script>
+</body>
+</html>
